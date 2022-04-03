@@ -1,0 +1,19 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body
+{
+    height:  250vh;
+}
+
+.webgl
+{
+    position: absolute;
+    top: 100%;
+    left: calc(50% - 250px);
+    outline: none;
+}
