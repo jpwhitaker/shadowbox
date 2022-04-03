@@ -20,9 +20,6 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-
-
-
 /**
  * Open Box
  */
@@ -37,25 +34,13 @@ var geometry = new THREE.BoxGeometry( 2, 1, 1 );
 var materials = [ materialTransparent, material1, material2, material3, material4, material5 ]
 
 
-const sceneObjects = {
-    boxes: [],
-    boxesYOffset: 0,
-    boxesInitialY: []
-}
-
-
 
 var openBox = new THREE.Mesh( geometry, materials );
 openBox.receiveShadow = true;
 openBox.castShadow = true
 scene.add( openBox );
-sceneObjects.boxes.push(openBox)
+
 openBox.position.y = 0; 
-sceneObjects.boxesInitialY = 0;
-
-
-
-
 
 
 /**
@@ -103,41 +88,6 @@ const sizes = {
 }
 
 
-
-// const lights = {
-//     pointLight: pointLight,
-//     toggleLight: function(){
-//         this.pointLight.visible = !this.pointLight.visible
-//     },
-//     intensity: pointLight.intensity
-// }
-
-
-
-// gui.add(lights, 'toggleLight').name("Toggle light")
-// gui.add(pointLight, 'intensity', 0, 3, 0.05)
-// gui.add(pointLight, 'decay', 0, 100, 0.5)
-// gui.add(pointLight.position, 'x', 0, 10, 0.05)
-// gui.add(pointLight.position, 'y', -10, 10, 0.05)
-// gui.add(pointLight.position, 'z', -10, 10, 0.05)
-
-
-
-// window.addEventListener('resize', () =>
-// {
-//     // Update sizes
-//     sizes.width = window.innerWidth
-//     sizes.height = window.innerHeight
-
-//     // Update camera
-//     cameras.cam1.aspect = sizes.width / sizes.height
-//     cameras.cam1.updateProjectionMatrix()
-
-//     // Update renderer
-//     renderer.setSize(sizes.width, sizes.height)
-//     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-// })
-
 /**
  * Cameras
  */
@@ -161,7 +111,7 @@ const cameras = {
 gui.add(cameras, 'changeCamera')
 cameras.cam2.rotation.reorder('YXZ')
 gui.add(cameras.cam2.rotation, 'x', -2, 2, 0.005)
-gui.hide()
+// gui.hide()
 
 cam1.position.z = 3
 cam2.position.x = 0.2;
@@ -170,11 +120,6 @@ cameras.cam2.lookAt( 0, 0, 0 );
 
 scene.add(cameras.cam1)
 scene.add(cameras.cam2)
-
-// const helper1 = new THREE.CameraHelper( cameras.cam1 );
-// const helper2 = new THREE.CameraHelper( cameras.cam2 );
-// scene.add( helper1 );
-// scene.add( helper2 );
 
 
 // Controls
@@ -193,12 +138,14 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
+renderer.setClearColor( 0xffffff, 0);
+
 
 
 /**
  * Scroll
  */
- let scrollY = window.scrollY
+let scrollY = window.scrollY
 let camRotation
 
  window.addEventListener('scroll', () => {
@@ -221,12 +168,6 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-
-    //update box offset
-    // debugger
-    sceneObjects.boxes.forEach((box, i) => {
-        box.position.y = i + sceneObjects.boxesYOffset;
-    })
 
     camRotation = translateRange(scrollY, {min: 500, max: 1190},{min: -0.15, max: 0.15} )
     // console.log(camRotation)
